@@ -8,6 +8,7 @@ class Board():
 	def __init__(self, size=4, fourProbability=0.1):
 		self.size = size
 		self.board = dict((value,None) for value in [(x,y) for x in range(self.size) for y in range(self.size)])
+		self.fourProbability=fourProbability
 
 	def getEmptyCells(self):
 		return [x for x in self.board if self.board[x] == None]
@@ -26,10 +27,14 @@ class Board():
 
 	# return 2 or 4 based on probability
 	def getRandomData(self):
-		pass
+		num = random.randint(1, 100)
+		if(num <= self.fourProbability*100):
+			return 4;
+		else:
+			return 2;
 
 	def addRandomData(self):
-		pass
+		self.addData(self.getEmptyCell(),self.getRandomData())
 
 	def print(self):
 		for x in range(self.size):
@@ -39,9 +44,10 @@ b = Board(3)
 # print(b.size)
 # print(b.board)
 # print(b.getEmptyCell())
-b.addData(b.getEmptyCell(), random.randint(0, 10))
-b.addData(b.getEmptyCell(), random.randint(0, 10))
-b.addData(b.getEmptyCell(), random.randint(0, 10))
-b.addData(b.getEmptyCell(), random.randint(0, 10))
-b.addData(b.getEmptyCell(), random.randint(0, 10))
+
+b.addRandomData();
+b.addRandomData();
+b.addRandomData();
+b.addRandomData();
+b.addRandomData();
 b.print()
