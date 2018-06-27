@@ -11,8 +11,8 @@ class Game():
 		if (valid):
 			self.score+=score
 			self.board.addRandomData()
-		self.print()
-		print(self.score)
+			self.print()
+			print(self.score)
 
 	def move(self):
 		char = getch.getch()
@@ -35,6 +35,7 @@ class Game():
 
 if __name__ == '__main__':
 	g = Game()
+	g.print()
 	while not g.isGameOver():
 		if(g.move()):
 			break
