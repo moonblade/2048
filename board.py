@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import random
+from move import Move
 from partialFormatter import fmt
 from itertools import count, groupby, starmap
 # import numpy
@@ -12,8 +13,10 @@ class Board():
 		self.base = 2
 		self.size = size
 		self.board = [[None for x in range(self.size)] for y in range(self.size)]
-		# self.board = dict((value,None) for value in [(x,y) for x in range(self.size) for y in range(self.size)])
+		self.previousBoard = self.board[:]
 		self.fourProbability=fourProbability
+		self.addRandomData()
+		self.addRandomData()
 
 	def getEmptyCells(self):
 		return [(x,y) for x in range(self.size) for y in range(self.size) if self.board[x][y] == None]
@@ -30,13 +33,20 @@ class Board():
 			self.board[cell[0]][cell[1]] = number
 			return True
 
-	# return 2 or 4 based on probability
+	# return base or base * 2 based on probability
 	def getRandomData(self):
 		chance = random.uniform(0, 1)
 		if(chance <= self.fourProbability):
-			return 4;
+			return self.base * 2;
 		else:
-			return 2;
+			return self.base;
+
+	def undo(self):
+		self.board = self.previousBoard[:]
+		return (0, True)
+
+	def validMove(self):
+		return self.board != self.previousBoard
 
 	def addRandomData(self):
 		self.changeData(self.getEmptyCell(), self.getRandomData())
@@ -52,25 +62,49 @@ class Board():
 	def transpose(self):
 		self.board = [[self.board[y][x] for y in range(self.size)] for x in range(self.size)]
 
+	def move(self, move):
+		if move == Move.UP:
+			return self.moveUp()
+		elif move == Move.DOWN:
+			return self.moveDown()
+		elif move == Move.RIGHT:
+			return self.moveRight()
+		elif move == Move.LEFT:
+			return self.moveLeft()
+		elif move == Move.UNDO:
+			return self.undo()
+
 	def moveDown(self):
+		self.previousBoard = self.board[:]
 		self.transpose()
-		score = self.moveRight()
+		score = self.squishRight()
 		self.transpose()
-		return score
+		return score, self.validMove()
 		
 	def moveUp(self):
+		self.previousBoard = self.board[:]
 		self.transpose()
-		score = self.moveLeft()
+		score = self.squishLeft()
 		self.transpose()
-		return score
+		return score, self.validMove()
 
 	def moveRight(self):
+		self.previousBoard = self.board[:]
+		score = self.squishRight()
+		return score, self.validMove()
+
+	def squishRight(self):
 		self.flip()
-		score = self.moveLeft()
+		score = self.squishLeft()
 		self.flip()
 		return score
 
 	def moveLeft(self):
+		self.previousBoard = self.board[:]
+		score = self.squishLeft()
+		return score, self.validMove()
+
+	def squishLeft(self):
 		score = 0
 		for rowIndex in range(self.size):
 			row = self.board[rowIndex]
@@ -79,31 +113,5 @@ class Board():
 				r += ([n*self.base] * (x//self.base)) + ([n] * (x%self.base))
 				score += n*self.base*(x//self.base)
 			self.board[rowIndex] = r + ([None] * (self.size - len(r)))
-		self.addRandomData()
 		return score
 
-b = Board(4)
-b.addRandomData();
-
-b.addRandomData();
-b.addRandomData();
-b.addRandomData();
-b.addRandomData();
-b.addRandomData();
-b.addRandomData();
-b.addRandomData();
-b.addRandomData();
-b.addRandomData();
-b.addRandomData();
-b.print()
-b.flip()
-print(b.moveLeft())
-b.print()
-print(b.moveRight())
-b.print()
-print(b.moveRight())
-b.print()
-print(b.moveUp())
-b.print()
-print(b.moveDown())
-b.print()
