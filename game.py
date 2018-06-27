@@ -1,12 +1,8 @@
 from board import Board
 from move import Move
-import curses
+import getch
 class Game():
 	def __init__(self):
-		self.screen = curses.initscr()
-		# curses.noecho()
-		# curses.cbreak()
-		self.screen.keypad(True)
 		self.board = Board()
 		self.score = 0
 
@@ -19,16 +15,16 @@ class Game():
 		print(self.score)
 
 	def move(self):
-		char = self.screen.getch()
-		if char == ord('q'):
+		char = getch.getch()
+		if char == 'q':
 			return True
-		elif char == curses.KEY_RIGHT:
+		elif char == 'd':
 			self.makeMove(Move.RIGHT)
-		elif char == curses.KEY_LEFT:
+		elif char == 'a':
 			self.makeMove(Move.LEFT)
-		elif char == curses.KEY_UP:
+		elif char == 'w':
 			self.makeMove(Move.UP)
-		elif char == curses.KEY_DOWN:
+		elif char == 's':
 			self.makeMove(Move.DOWN)
 
 	def print(self):
@@ -37,12 +33,6 @@ class Game():
 	def isGameOver(self):
 		return False
 
-	def __del__(self):
-		curses.nocbreak(); 
-		self.screen.keypad(0); 
-		curses.echo()
-		curses.endwin()
-		
 if __name__ == '__main__':
 	g = Game()
 	while not g.isGameOver():
