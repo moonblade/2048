@@ -31,7 +31,7 @@ class Game():
 		self.board.print()
 
 	def isGameOver(self):
-		return False
+		return self.board.noMoreMoves()
 
 if __name__ == '__main__':
 	g = Game()
@@ -39,4 +39,3 @@ if __name__ == '__main__':
 	while not g.isGameOver():
 		if(g.move()):
 			break
-	
