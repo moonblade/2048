@@ -47,7 +47,7 @@ class Board():
 
 	def noMoreMoves(self):
 		rows = self.board + [[self.board[y][x] for y in range(self.size)] for x in range(self.size)]
-		return self.getEmptyCell() is None or any([rows[x][y]==rows[x][y+1] for x in range(self.size * 2) for y in range(self.size - 1)])
+		return self.getEmptyCell() is None and not any([rows[x][y]==rows[x][y+1] for x in range(self.size * 2) for y in range(self.size - 1)])
 
 	def validMove(self):
 		return self.board != self.previousBoard
@@ -118,4 +118,3 @@ class Board():
 				score += n*self.base*(x//self.base)
 			self.board[rowIndex] = r + ([None] * (self.size - len(r)))
 		return score
-
