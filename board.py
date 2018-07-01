@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import random
+import numpy as np
 from move import Move
 from partialFormatter import fmt
 from itertools import count, groupby, starmap
@@ -25,6 +26,9 @@ class Board():
 		if (len(self.getEmptyCells())==0):
 			return None
 		return random.choice(self.getEmptyCells())
+
+	def getState(self):
+		return np.array([self.board[x][y]  if self.board[x][y] is not None else 0 for x in range(self.size) for y in range(self.size)])		
 
 	def changeData(self, cell, number):
 		if cell is None:

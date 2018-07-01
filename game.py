@@ -3,8 +3,18 @@ from move import Move
 import getch
 class Game():
 	def __init__(self):
-		self.board = Board()
-		self.score = 0
+		self.actionSpace = list(Move)
+		self.nActions = len(self.actionSpace)
+		self.reset()
+		self.nFeatures = self.board.size * self.board.size
+
+	def step(self, move):
+		move = Move(move)
+		score, valid=self.board.move(move)
+		if (valid):
+			self.score+=score
+			self.board.addRandomData()
+		return self.board.getState(), score, self.isGameOver()				
 
 	def makeMove(self, move):
 		score, valid=self.board.move(move)
@@ -12,7 +22,6 @@ class Game():
 			self.score+=score
 			self.board.addRandomData()
 			self.print()
-			print(self.score)
 
 	def move(self):
 		char = getch.getch()
@@ -26,6 +35,11 @@ class Game():
 			self.makeMove(Move.UP)
 		elif char == 's':
 			self.makeMove(Move.DOWN)
+
+	def reset(self):
+		self.board = Board()
+		self.score = 0
+		return self.board.getState()
 
 	def print(self):
 		self.board.print()

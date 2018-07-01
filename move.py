@@ -1,8 +1,11 @@
 from enum import Enum
 class Move(Enum):
-	UP = 1
-	DOWN = 2
-	LEFT = 3
-	RIGHT = 4
-	RESTART = 5
-	# UNDO = 6
+	UP = 0
+	DOWN = 1
+	LEFT = 2
+	RIGHT = 3
+	# RESTART = 4
+	# UNDO = 5
+
+if __name__ == '__main__':
+	print(list(Move))
