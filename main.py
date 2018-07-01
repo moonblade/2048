@@ -10,7 +10,6 @@ def run():
 			action = RL.chooseAction(state)
 			observation, reward, done = game.step(action)
 			RL.storeTransition(state, action, reward, observation)
-
 			if step > 200 and step%5==0:
 				RL.learn()
 

@@ -6,7 +6,7 @@ np.random.seed(1)
 tf.set_random_seed(1)
 
 class DeepQNetwork():
-	def __init__(self, nActions, nFeatures, learningRate=0.1, rewardDecay=0.9, epsilonGreedy=0.9, replaceTarget=300, memorySize=500, batchSize=32, epsilonGreedyInc=.1):
+	def __init__(self, nActions, nFeatures, learningRate=0.1, rewardDecay=0.9, epsilonGreedy=0.9, replaceTarget=300, memorySize=500, batchSize=32, epsilonGreedyInc=.01):
 		self.nActions = nActions;
 		self.nFeatures = nFeatures;
 		self.learningRate = learningRate;
@@ -17,6 +17,7 @@ class DeepQNetwork():
 		self.batchSize = batchSize;
 		self.epsilonGreedyInc = epsilonGreedyInc;
 		self.epsilon = epsilonGreedy;
+		# self.epsilon = 0;
 
 		self.stepCounter = 0;
 

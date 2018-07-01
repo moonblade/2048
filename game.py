@@ -7,6 +7,7 @@ class Game():
 		self.nActions = len(self.actionSpace)
 		self.reset()
 		self.nFeatures = self.board.size * self.board.size
+		self.deathScore = -100
 
 	def step(self, move):
 		move = Move(move)
@@ -14,7 +15,8 @@ class Game():
 		if (valid):
 			self.score+=score
 			self.board.addRandomData()
-		return self.board.getState(), score, self.isGameOver()				
+		done = self.isGameOver()
+		return self.board.getState(), score if not done else self.deathScore, done				
 
 	def makeMove(self, move):
 		score, valid=self.board.move(move)
